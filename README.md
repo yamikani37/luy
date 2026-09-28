@@ -11,9 +11,28 @@ npm install
 npm run dev       # http://localhost:4321
 npm run build     # static site in dist/
 npm run preview   # serve the build
+npm run deploy    # build + deploy to Cloudflare (after `npx wrangler login`)
 ```
 
-Deploys on Netlify (`netlify.toml` is set up: build `npm run build`, publish `dist`).
+## Hosting: Cloudflare
+
+The site is served from Cloudflare as static files (Workers static assets, `wrangler.jsonc`). There is no server code.
+
+**Option A: auto-deploy from GitHub (recommended)**
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Import a repository** → pick `yamikani37/luy`.
+2. Build command: `npm run build`. Deploy command: `npx wrangler deploy` (Cloudflare usually fills these in).
+3. Under **Variables**, add `SITE_URL` = the live address (e.g. `https://luy.<your-subdomain>.workers.dev`, or her own domain later). It's used for canonical links and the share image.
+4. Every push to `main` then rebuilds and deploys.
+
+**Option B: deploy from your machine**
+```bash
+npx wrangler login        # once
+npm run deploy            # builds, then uploads dist/ to Cloudflare
+```
+
+**Custom domain:** Worker → **Settings** → **Domains & Routes** → **Add custom domain**, then update `SITE_URL`.
+
+`public/_headers` sets long caching for built assets and a few security headers. `npm run cf:preview` runs the site locally the way Cloudflare serves it.
 
 ## Where things live
 

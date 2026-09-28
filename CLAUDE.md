@@ -5,6 +5,10 @@ Astro 7 static site for Luyando Mooya's Kitchen (home bakery, Ndola). Read `desi
 ## Commands
 - `npm run dev`: local server on :4321
 - `npm run build`: must pass before committing
+- `npm run deploy`: build + `wrangler deploy` to Cloudflare (static assets from `dist/`, config in `wrangler.jsonc`)
+
+## Hosting
+Cloudflare Workers static assets. `SITE_URL` env var sets `site` in `astro.config.mjs` (canonical + OG URLs). Headers live in `public/_headers`. No server code or adapter: keep the site fully static.
 
 ## Rules
 - Two menus: `bakes` and `kitchen` in `src/data/menu.ts`, rendered by `MenuBoard.astro` on `/menu` and `/menu/kitchen` with `MenuSwitch.astro` on top.
