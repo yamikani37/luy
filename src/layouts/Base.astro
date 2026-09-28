@@ -1,0 +1,101 @@
+---
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/fraunces/full-italic.css';
+import '@fontsource-variable/figtree';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Button from '../components/Button.astro';
+import { site } from '../data/site';
+import { orderLink } from '../lib/whatsapp';
+
+interface Props { title?: string; description?: string; }
+const { title, description = site.description } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Bakery',
+  name: site.name,
+  description: site.description,
+  telephone: site.phones.map((p) => p.tel),
+  address: { '@type': 'PostalAddress', streetAddress: 'Ndola Villa', addressLocality: 'Ndola', addressCountry: 'ZM' },
+  url: Astro.site?.toString(),
+  image: ogImage.toString(),
+  priceRange: 'K180–K1,600',
+};
+---
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta name="theme-color" content="#A7B97E" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:url" content={canonical} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <Header />
+  <main id="main"><slot /></main>
+  <Footer />
+  <Button href={orderLink()} icon="chat" class="fab" label="Order on WhatsApp">Order</Button>
+  <script>
+    // Header shadow on scroll + floating order button on phones
+    const header = document.querySelector('[data-header]');
+    const fab = document.querySelector('.fab');
+    const onScroll = () => {
+      const y = window.scrollY;
+      header?.classList.toggle('is-scrolled', y > 8);
+      fab?.classList.toggle('is-shown', y > 520);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Mobile nav sheet
+    const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+    const sheet = document.querySelector<HTMLElement>('[data-mobile-nav]');
+    const setOpen = (open: boolean) => {
+      toggle?.setAttribute('aria-expanded', String(open));
+      sheet?.classList.toggle('is-open', open);
+      if (open) sheet?.querySelector<HTMLElement>('a')?.focus();
+    };
+    toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { setOpen(false); toggle.focus(); }
+    });
+    document.addEventListener('click', (e) => {
+      const t = e.target as Node;
+      if (sheet?.classList.contains('is-open') && !sheet.contains(t) && !toggle?.contains(t)) setOpen(false);
+    });
+    window.matchMedia('(min-width: 901px)').addEventListener('change', (m) => m.matches && setOpen(false));
+
+    // Scroll reveals
+    const els = document.querySelectorAll('[data-reveal]');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        // Reveal on entry, and also anything a fast scroll or #anchor jump skipped past (it sits above the viewport).
+        entries.forEach((en) => {
+          if (en.isIntersecting || en.boundingClientRect.top < 0) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      els.forEach((el) => io.observe(el));
+    } else {
+      els.forEach((el) => el.classList.add('is-in'));
+    }
+  </script>
+</body>
+</html>

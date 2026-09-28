@@ -1,0 +1,26 @@
+---
+import Button from './Button.astro';
+import Seal from './Seal.astro';
+import { customLink } from '../lib/whatsapp';
+interface Props { eyebrow?: string; title?: string; body?: string; cta?: string; href?: string; }
+const {
+  eyebrow = 'Custom orders',
+  title = 'Have something special in mind?',
+  body = 'Tell us what you’re looking for and we’ll help bring it to life.',
+  cta = 'Order on WhatsApp',
+  href = customLink(),
+} = Astro.props;
+---
+<section class="section" aria-labelledby="banner-title">
+  <div class="container">
+    <div class="banner" data-reveal>
+      <div class="banner__text">
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 class="h1" id="banner-title">{title}</h2>
+        <p>{body}</p>
+        <Button href={href} size="lg" icon="chat">{cta}</Button>
+      </div>
+      <div class="banner__seal"><Seal tone="olive" size={210} spin /></div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,41 @@
+---
+// The logo, drawn from outlined paths (no font needed). See design/brand-book.md → Logo.
+import P from '../data/seal-paths.json';
+
+interface Props {
+  variant?: 'seal' | 'mark';
+  tone?: 'light' | 'pistachio' | 'olive';
+  size?: number;
+  spin?: boolean;
+  label?: string; // omit for a decorative seal
+  class?: string;
+}
+const { variant = 'seal', tone = 'light', size = 160, spin = false, label, class: cls } = Astro.props;
+const T = {
+  light: { scallop: 'pistachio-500', ring: 'cream-50', text: 'olive-800' },
+  pistachio: { scallop: 'cream-50', ring: 'pistachio-500', text: 'olive-900' },
+  olive: { scallop: 'pistachio-500', ring: 'olive-800', text: 'butter-200' },
+}[tone];
+const v = (n: string) => `var(--${n})`;
+---
+<svg
+  class:list={['seal', spin && 'seal--spin', cls]}
+  viewBox="0 0 200 200" width={size} height={size}
+  role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}
+>
+  {variant === 'mark' ? (
+    <>
+      <path d={P.scallopSmall} fill={v(T.scallop)} />
+      <circle cx="100" cy="100" r="72" fill={v('copper-500')} />
+      <path d={P.lmSmall} fill={v('cream-50')} />
+    </>
+  ) : (
+    <>
+      <path d={P.scallop} fill={v(T.scallop)} />
+      <circle cx="100" cy="100" r="80" fill={v(T.ring)} />
+      <g class="seal__ring"><path d={P.ring} fill={v(T.text)} /></g>
+      <circle cx="100" cy="100" r="52" fill={v('copper-500')} />
+      <path d={P.lm} fill={v('cream-50')} />
+    </>
+  )}
+</svg>

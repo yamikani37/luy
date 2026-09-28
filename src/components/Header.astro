@@ -1,0 +1,33 @@
+---
+import Seal from './Seal.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { nav, site } from '../data/site';
+import { orderLink } from '../lib/whatsapp';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <a class="brand" href="/" aria-label={`${site.name}, home`}>
+      <Seal variant="mark" size={44} />
+      <span class="brand__name">{site.shortName}</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      {nav.map((l) => <a class="nav__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>)}
+    </nav>
+    <Button href={orderLink()} icon="chat" class="site-header__cta">Order on WhatsApp</Button>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
+      <span class="sr-only">Menu</span>
+      <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+  </div>
+</header>
+<div class="mobile-nav" id="mobile-nav" data-mobile-nav>
+  <ul>
+    {nav.map((l) => (
+      <li><a class="mobile-nav__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}<Icon name="arrow" size={22} /></a></li>
+    ))}
+  </ul>
+  <Button href={orderLink()} icon="chat" size="lg">Order on WhatsApp</Button>
+</div>

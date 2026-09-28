@@ -1,0 +1,32 @@
+---
+import { nav, site } from '../data/site';
+import { orderLink } from '../lib/whatsapp';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <img src="/brand/lockup-on-olive.svg" alt={site.name} width="300" height="143" loading="lazy" />
+        <p>{site.tagline}<br />Fresh, delicious, and made with love.</p>
+      </div>
+      <div>
+        <h2>Explore</h2>
+        <ul>{nav.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+      <div>
+        <h2>Get in touch</h2>
+        <ul>
+          <li><a href={orderLink()} target="_blank" rel="noopener">WhatsApp {site.phones[0].display}</a></li>
+          {site.phones.map((p) => <li><a href={`tel:${p.tel}`}>Call {p.display}</a></li>)}
+          <li>{site.location}</li>
+          <li>{site.instagramUrl ? <a href={site.instagramUrl} target="_blank" rel="noopener">Instagram: {site.instagramName}</a> : <>Instagram: {site.instagramName}</>}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p>© {year} {site.name}</p>
+      <p>Thank you for supporting a small home kitchen.</p>
+    </div>
+  </div>
+</footer>

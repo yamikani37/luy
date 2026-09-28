@@ -1,0 +1,21 @@
+---
+import Button from './Button.astro';
+import Photo from './Photo.astro';
+import { orderLink } from '../lib/whatsapp';
+import type { MenuItem } from '../data/menu';
+interface Props { item: MenuItem; category: string; categoryTitle: string; i?: number; showPhoto?: boolean; }
+const { item, category, categoryTitle, i = 0, showPhoto = false } = Astro.props;
+---
+<article class="item-card" data-reveal style={`--i: ${i}`}>
+  {showPhoto && <Photo label={`${item.name}, ${categoryTitle}`} />}
+  <div class="item-card__body">
+    <div>
+      <h3 class="h3">{item.name}</h3>
+      {item.note && <p class="item-card__note">{item.note}</p>}
+    </div>
+    <div class="item-card__foot">
+      <span class="item-card__price">{item.price}</span>
+      <Button href={orderLink({ item: item.name, category, price: item.price })} variant="secondary" size="sm" icon="chat" label={`Order ${item.name}, ${categoryTitle}, ${item.price}, on WhatsApp`}>Order this</Button>
+    </div>
+  </div>
+</article>

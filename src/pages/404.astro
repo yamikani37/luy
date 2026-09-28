@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Seal from '../components/Seal.astro';
+import Button from '../components/Button.astro';
+---
+<Base title="Page not found">
+  <section class="section">
+    <div class="container" style="display:flex;flex-direction:column;align-items:center;gap:var(--space-6);text-align:center">
+      <Seal size={180} spin />
+      <h1 class="display-lg">This page <span class="accent">isn’t on the menu.</span></h1>
+      <p class="lead">It may have moved, or the link has a typo.</p>
+      <div class="btn-row" style="justify-content:center">
+        <Button href="/">Back home</Button>
+        <Button href="/menu" variant="secondary">View menu</Button>
+      </div>
+    </div>
+  </section>
+</Base>

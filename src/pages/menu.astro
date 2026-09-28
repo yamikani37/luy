@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import Seal from '../components/Seal.astro';
+import ItemCard from '../components/ItemCard.astro';
+import OrderBanner from '../components/OrderBanner.astro';
+import { menu } from '../data/menu';
+import { askLink } from '../lib/whatsapp';
+---
+<Base title="Menu & Price List" description="Prices for cupcakes, bento cakes, flat, tall and tiered cakes. Tap Order this and WhatsApp opens with your order filled in.">
+  <section class="page-hero">
+    <div class="container page-hero__inner">
+      <div class="page-hero__text">
+        <p class="eyebrow" data-reveal>Baked to order</p>
+        <h1 class="display-lg" data-reveal style="--i:1">Menu &amp; price list</h1>
+        <p class="lead" data-reveal style="--i:2">Everything is baked to order. Tap <strong>Order this</strong> on any item and WhatsApp opens with your order already written.</p>
+      </div>
+      <Seal size={150} spin />
+    </div>
+  </section>
+
+  <div class="tabs-bar">
+    <div class="container">
+      <nav class="tabs" aria-label="Menu categories" data-tabs>
+        <span class="tabs__ind" aria-hidden="true" data-tabs-ind></span>
+        {menu.map((c, i) => <a class="tabs__tab" href={`#${c.id}`} data-tab={c.id} aria-current={i === 0 ? 'true' : undefined}>{c.title}</a>)}
+      </nav>
+    </div>
+  </div>
+
+  <div class="container">
+    {menu.map((c) => (
+      <section class="menu-cat" id={c.id} aria-labelledby={`${c.id}-title`} data-cat>
+        <div class="menu-cat__head">
+          <h2 class="h2" id={`${c.id}-title`} data-reveal>{c.title}</h2>
+          <p data-reveal style="--i:1">{c.blurb}</p>
+        </div>
+        <div class="menu-grid">
+          {c.items.map((item, i) => <ItemCard item={item} category={c.category} categoryTitle={c.title} i={i} />)}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <OrderBanner eyebrow="Need help choosing?" title="Not sure what to pick?" body="Send us a message and we’ll help you choose the right size and style for your occasion." cta="Ask on WhatsApp" href={askLink()} />
+</Base>
+
+<script>
+  // Category tabs: a pistachio pill slides to whichever section you're reading.
+  const bar = document.querySelector<HTMLElement>('[data-tabs]');
+  const ind = document.querySelector<HTMLElement>('[data-tabs-ind]');
+  const tabs = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-tab]'));
+  const cats = Array.from(document.querySelectorAll<HTMLElement>('[data-cat]'));
+  let current = '';
+
+  function setActive(id: string) {
+    if (!bar || !ind || id === current) return;
+    current = id;
+    tabs.forEach((t) => {
+      const on = t.dataset.tab === id;
+      t.classList.toggle('is-active', on);
+      if (on) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current');
+      if (on) {
+        ind.style.width = `${t.offsetWidth}px`;
+        ind.style.transform = `translateX(${t.offsetLeft - 5}px)`;
+        ind.style.opacity = '1';
+        const left = t.offsetLeft - bar.clientWidth / 2 + t.offsetWidth / 2;
+        bar.scrollTo({ left, behavior: 'smooth' });
+      }
+    });
+  }
+
+  setActive(location.hash.slice(1) && cats.some((c) => c.id === location.hash.slice(1)) ? location.hash.slice(1) : cats[0]?.id);
+
+  const io = new IntersectionObserver((entries) => {
+    const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    if (visible[0]) setActive(visible[0].target.id);
+  }, { rootMargin: '-160px 0px -55% 0px' });
+  cats.forEach((c) => io.observe(c));
+
+  tabs.forEach((t) => t.addEventListener('click', () => setActive(t.dataset.tab!)));
+  window.addEventListener('resize', () => { const id = current; current = ''; setActive(id); });
+</script>

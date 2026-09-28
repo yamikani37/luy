@@ -1,0 +1,123 @@
+---
+import Base from '../layouts/Base.astro';
+import Seal from '../components/Seal.astro';
+import Button from '../components/Button.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import Scallops from '../components/Scallops.astro';
+import OrderBanner from '../components/OrderBanner.astro';
+import { menu } from '../data/menu';
+import { occasions } from '../data/site';
+import { orderLink } from '../lib/whatsapp';
+
+const steps = [
+  { title: 'Pick your cake', body: 'Browse the menu and choose a size, from a bento box for one to a tiered cake for a crowd.' },
+  { title: 'Tap “Order this”', body: 'WhatsApp opens with your order already written. Add your date, colours and message.' },
+  { title: 'We bake it fresh', body: 'We confirm the details, bake to order and get it ready for pickup or delivery.' },
+];
+---
+<Base>
+  <section class="hero">
+    <div class="hero__blob" aria-hidden="true"></div>
+    <div class="container hero__grid">
+      <div class="hero__text">
+        <p class="eyebrow" data-rise style="--i:0">Home bakery · Ndola</p>
+        <h1 class="display-xl hero__title">
+          <span class="line" data-rise style="--i:1">Beautifully made.</span>
+          <span class="line accent" data-rise style="--i:2">Made for your moments.</span>
+        </h1>
+        <p class="lead" data-rise style="--i:3">
+          Cakes, cupcakes and bento treats from a home kitchen in Ndola. Made fresh, made with love, and made to fit whatever you’re celebrating.
+        </p>
+        <div class="btn-row" data-rise style="--i:4">
+          <Button href={orderLink()} size="lg" icon="chat">Order on WhatsApp</Button>
+          <Button href="/menu" variant="secondary" size="lg">View menu</Button>
+        </div>
+        <div class="hero__meta" data-rise style="--i:5">
+          <span><Icon name="whisk" size={18} />Baked to order</span>
+          <span><Icon name="heart" size={18} />Iced by hand</span>
+          <span><Icon name="pin" size={18} />Pickup or delivery in Ndola</span>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <Photo class="hero__photo" label="a favourite celebration cake" eager />
+        <span class="hero__chip"><i></i>Baked fresh to order</span>
+        <Seal class="hero__seal" size={170} spin label="Luyando Mooya’s Kitchen seal" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--parchment" aria-labelledby="fav-title">
+    <div class="container">
+      <div class="section-head section-head--row">
+        <div class="section-head" style="margin:0">
+          <p class="eyebrow" data-reveal>The menu</p>
+          <h2 class="h1" id="fav-title" data-reveal style="--i:1">Our favourites</h2>
+        </div>
+        <Button href="/menu" variant="ghost" icon="arrow">See the full price list</Button>
+      </div>
+      <div class="cat-grid">
+        {menu.map((c, i) => (
+          <a class="cat-card" href={`/menu#${c.id}`} data-reveal style={`--i:${i}`}>
+            <Photo label={c.title} />
+            <div class="cat-card__body">
+              <h3 class="h3">{c.title}</h3>
+              <p class="muted">{c.blurb}</p>
+              <div class="cat-card__from"><span>from <strong>{c.from}</strong></span><span class="cat-card__arrow"><Icon name="arrow" size={18} /></span></div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Scallops from="parchment-100" to="pistachio-500" />
+  <section class="section--pistachio occasions" aria-labelledby="occ-title">
+    <div class="container">
+      <p class="eyebrow occasions__title" id="occ-title">Made for every occasion</p>
+    </div>
+    <div class="marquee">
+      {[0, 1].map((copy) => (
+        <div class="marquee__group" style="display:flex;gap:var(--space-4)" aria-hidden={copy === 1 ? 'true' : undefined}>
+          {occasions.map((o) => <span class="marquee__item">{o}<Icon name="dot" /></span>)}
+        </div>
+      ))}
+    </div>
+  </section>
+  <Scallops from="pistachio-500" to="cream-50" />
+
+  <section class="section" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow" data-reveal>Ordering is easy</p>
+        <h2 class="h1" id="how-title" data-reveal style="--i:1">Three taps to cake</h2>
+      </div>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li class="step" data-reveal style={`--i:${i}`}>
+            <span class="step__num">{i + 1}</span>
+            <h3 class="h3">{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--mist" aria-labelledby="peek-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-reveal>From our kitchen</p>
+        <h2 class="h1" id="peek-title" data-reveal style="--i:1">A peek inside the kitchen</h2>
+      </div>
+      <div class="gallery">
+        <Photo label="a tiered or custom order" />
+        <Photo label="a bento cake or cupcake box" />
+        <Photo label="a celebration cake" />
+        <Photo label="icing in progress" />
+      </div>
+    </div>
+  </section>
+
+  <OrderBanner />
+</Base>

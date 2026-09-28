@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import Button from '../components/Button.astro';
+import OrderBanner from '../components/OrderBanner.astro';
+
+const values = [
+  { icon: 'whisk', title: 'Freshly made', body: 'Every order is baked to order, never sitting around waiting for a buyer.' },
+  { icon: 'sparkle', title: 'Custom orders', body: 'Colours, flavours and designs adjusted to fit your occasion.' },
+  { icon: 'leaf', title: 'Quality ingredients', body: 'Simple, good ingredients, handled with care from mix to icing.' },
+  { icon: 'gift', title: 'Made for your occasion', body: 'From a quiet birthday at home to a full wedding celebration.' },
+] as const;
+---
+<Base title="About" description="Luyando Mooya's Kitchen is a home bakery in Ndola baking cakes, cupcakes and bento treats to order.">
+  <section class="page-hero">
+    <div class="container page-hero__text">
+      <p class="eyebrow" data-reveal>Our story</p>
+      <h1 class="display-lg" data-reveal style="--i:1">A small kitchen, <span class="accent">by design.</span></h1>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="container story">
+      <div data-reveal><Photo label="Luyando, or the kitchen at work" /></div>
+      <div class="story__text">
+        <h2 class="h2" data-reveal>Who we are</h2>
+        <p data-reveal style="--i:1">Luyando Mooya’s Kitchen is a home bakery in Ndola, making cakes, cupcakes and bento treats for life’s biggest and smallest moments. Every order is baked fresh, iced by hand and sized to fit whatever you’re celebrating, from a small bento cake for a quiet Tuesday to a full tiered cake for a wedding.</p>
+        <p data-reveal style="--i:2">It’s a small home kitchen, and that’s by design: every order gets real attention, from the first message on WhatsApp to the moment the cake leaves the kitchen.</p>
+        <blockquote class="story__quote" data-reveal style="--i:3">“Beautifully made. Made for your moments.”</blockquote>
+        <div class="btn-row" data-reveal style="--i:4" >
+          <Button href="/menu" variant="secondary">View menu</Button>
+          <Button href="/contact" variant="ghost" icon="arrow">Get in touch</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pistachio" aria-labelledby="why-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-reveal>Why choose us</p>
+        <h2 class="h1" id="why-title" data-reveal style="--i:1">Made with care, start to finish</h2>
+      </div>
+      <div class="values">
+        {values.map((v, i) => (
+          <div class="value" data-reveal style={`--i:${i}`}>
+            <span class="value__icon"><Icon name={v.icon} size={24} /></span>
+            <h3 class="h3">{v.title}</h3>
+            <p>{v.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <OrderBanner eyebrow="Ready when you are" title="Ready to place an order?" body="Have a look at the menu, or just message us directly." />
+</Base>

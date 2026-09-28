@@ -1,0 +1,6 @@
+---
+// A doily edge: the section above (`from`) hangs into the one below (`to`). Token names.
+interface Props { from: string; to: string; radius?: number; }
+const { from, to, radius = 14 } = Astro.props;
+---
+<div class="scallops" aria-hidden="true" style={`--from: var(--${from}); --to: var(--${to}); --r: ${radius}px`}></div>
