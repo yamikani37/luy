@@ -6,7 +6,7 @@ import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
 import Scallops from '../components/Scallops.astro';
 import OrderBanner from '../components/OrderBanner.astro';
-import { menu } from '../data/menu';
+import { bakes, kitchen, menus } from '../data/menu';
 import { occasions } from '../data/site';
 import { orderLink } from '../lib/whatsapp';
 
@@ -47,17 +47,44 @@ const steps = [
     </div>
   </section>
 
+  <section class="section" style="padding-top:var(--space-8)" aria-labelledby="two-title">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow" data-reveal>One kitchen, two menus</p>
+        <h2 class="h1" id="two-title" data-reveal style="--i:1">Something sweet, <span class="accent">or something hearty?</span></h2>
+      </div>
+      <div class="duo">
+        <a class="duo__card duo__card--bakes" href={menus.bakes.href} data-reveal>
+          <div class="duo__top"><span class="duo__icon"><Icon name="whisk" size={28} /></span><span class="duo__go"><Icon name="arrow" size={20} /></span></div>
+          <div>
+            <h3 class="display-lg duo__title">Bakes</h3>
+            <p class="duo__tag">{menus.bakes.tagline}</p>
+          </div>
+          <p class="duo__meta">{bakes.length} categories · from {bakes[0].from}</p>
+        </a>
+        <a class="duo__card duo__card--kitchen" href={menus.kitchen.href} data-reveal style="--i:1">
+          <div class="duo__top"><span class="duo__icon"><Icon name="pot" size={28} /></span><span class="duo__go"><Icon name="arrow" size={20} /></span></div>
+          <div>
+            <h3 class="display-lg duo__title">Kitchen</h3>
+            <p class="duo__tag">{menus.kitchen.tagline}</p>
+          </div>
+          <p class="duo__meta">{kitchen.length ? `${kitchen.length} categories` : 'Menu coming soon · ask what’s cooking'}</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <section class="section section--parchment" aria-labelledby="fav-title">
     <div class="container">
       <div class="section-head section-head--row">
         <div class="section-head" style="margin:0">
-          <p class="eyebrow" data-reveal>The menu</p>
+          <p class="eyebrow" data-reveal>From the bakes menu</p>
           <h2 class="h1" id="fav-title" data-reveal style="--i:1">Our favourites</h2>
         </div>
         <Button href="/menu" variant="ghost" icon="arrow">See the full price list</Button>
       </div>
       <div class="cat-grid">
-        {menu.map((c, i) => (
+        {bakes.map((c, i) => (
           <a class="cat-card" href={`/menu#${c.id}`} data-reveal style={`--i:${i}`}>
             <Photo label={c.title} />
             <div class="cat-card__body">

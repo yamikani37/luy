@@ -1,6 +1,6 @@
 ---
 // In-house icons: 24px grid, 1.9px round strokes, currentColor.
-interface Props { name: 'chat' | 'arrow' | 'phone' | 'pin' | 'instagram' | 'whisk' | 'heart' | 'sparkle' | 'leaf' | 'gift' | 'clock' | 'dot'; size?: number; }
+interface Props { name: 'chat' | 'arrow' | 'phone' | 'pin' | 'instagram' | 'whisk' | 'heart' | 'sparkle' | 'leaf' | 'gift' | 'clock' | 'dot' | 'pot'; size?: number; }
 const { name, size = 20 } = Astro.props;
 ---
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -15,5 +15,6 @@ const { name, size = 20 } = Astro.props;
   {name === 'leaf' && (<><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14Z" /><path d="M5 19l7-7" /></>)}
   {name === 'gift' && (<><rect x="4" y="9" width="16" height="11" rx="2" /><path d="M4 13h16M12 9v11" /><path d="M12 9c-2 0-4.5-.5-4.5-2.5S10 4 12 9Zm0 0c2 0 4.5-.5 4.5-2.5S14 4 12 9Z" /></>)}
   {name === 'clock' && (<><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></>)}
+  {name === 'pot' && (<><path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3Z" /><path d="M2.5 11h19M9 7.5c0-1 .8-1.5.8-2.5M12.5 7.5c0-1 .8-1.5.8-2.5" /></>)}
   {name === 'dot' && <circle cx="12" cy="12" r="3" fill="currentColor" />}
 </svg>

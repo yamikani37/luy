@@ -7,6 +7,8 @@ Astro 7 static site for Luyando Mooya's Kitchen (home bakery, Ndola). Read `desi
 - `npm run build`: must pass before committing
 
 ## Rules
+- Two menus: `bakes` and `kitchen` in `src/data/menu.ts`, rendered by `MenuBoard.astro` on `/menu` and `/menu/kitchen` with `MenuSwitch.astro` on top.
+- Keep the footer credit "Designed & built by Yami" (https://iamyami.com).
 - **Prices live only in `src/data/menu.ts`** and come from the client. Never invent or change a price, product, phone number or business claim. Missing info gets a clearly labelled placeholder.
 - Business info lives in `src/data/site.ts`. WhatsApp links are always built with `orderLink()` from `src/lib/whatsapp.ts`. Keep the message wording.
 - Colours, spacing, radii, shadows, durations and easings come from CSS variables in `src/styles/tokens.css`, generated from `design/tokens.json`. Don't hard-code hex values in components. If a token changes, edit the JSON and regenerate `tokens.css`, keeping the same variable names.

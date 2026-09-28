@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import Seal from '../../components/Seal.astro';
+import Button from '../../components/Button.astro';
+import MenuSwitch from '../../components/MenuSwitch.astro';
+import MenuBoard from '../../components/MenuBoard.astro';
+import OrderBanner from '../../components/OrderBanner.astro';
+import { kitchen } from '../../data/menu';
+import { orderLink } from '../../lib/whatsapp';
+
+const kitchenAsk = orderLink({ message: 'Hello! What’s on the kitchen menu?' });
+---
+<Base title="Menu · Kitchen" description="Home-cooked food from Luyando Mooya's Kitchen in Ndola. Order on WhatsApp.">
+  <section class="page-hero">
+    <div class="container page-hero__inner">
+      <div class="page-hero__text">
+        <p class="eyebrow" data-reveal>Our menu</p>
+        <h1 class="display-lg" data-reveal style="--i:1">From the kitchen, <span class="accent">made to order.</span></h1>
+        <p class="lead" data-reveal style="--i:2">Home-cooked food from the same kitchen as the cakes. Tap <strong>Order this</strong> and WhatsApp opens with your order written.</p>
+      </div>
+      <Seal size={150} spin />
+    </div>
+    <div class="container"><MenuSwitch current="kitchen" /></div>
+  </section>
+
+  {kitchen.length > 0 ? (
+    <MenuBoard categories={kitchen} />
+  ) : (
+    <section class="section" style="padding-top:var(--space-8)">
+      <div class="container">
+        <div class="soon" data-reveal>
+          <Seal variant="mark" size={72} />
+          <h2 class="h1">The kitchen menu is <span class="accent">on its way.</span></h2>
+          <p class="lead">We’re putting the full list together. In the meantime, message us and we’ll tell you what’s cooking.</p>
+          <div class="btn-row" style="justify-content:center">
+            <Button href={kitchenAsk} size="lg" icon="chat">Ask what’s cooking</Button>
+            <Button href="/menu" variant="secondary" size="lg">See the bakes</Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <OrderBanner />
+</Base>

@@ -2,7 +2,7 @@
 
 Website for **Luyando Mooya's Kitchen**, a home bakery in Ndola, Zambia. *Beautifully made. Made for your moments.*
 
-Built with [Astro](https://astro.build) as a fully static site: four pages (Home, Menu, About, Contact), no backend. Every "Order" button opens WhatsApp with the order already written.
+Built with [Astro](https://astro.build) as a fully static site: Home, Menu (two menus: **Bakes** at `/menu` and **Kitchen** at `/menu/kitchen`), About and Contact, with no backend. Every "Order" button opens WhatsApp with the order already written.
 
 ## Run it
 
@@ -20,7 +20,7 @@ Deploys on Netlify (`netlify.toml` is set up: build `npm run build`, publish `di
 | What | Where |
 | --- | --- |
 | Business details (phones, WhatsApp number, location, Instagram) | `src/data/site.ts` |
-| **Prices and menu items** | `src/data/menu.ts` |
+| **Prices and menu items**: `bakes` and `kitchen` | `src/data/menu.ts` |
 | WhatsApp message wording | `src/lib/whatsapp.ts` |
 | Pages | `src/pages/` |
 | Components (Seal logo, buttons, cards, header, footer…) | `src/components/` |
@@ -31,6 +31,9 @@ Deploys on Netlify (`netlify.toml` is set up: build `npm run build`, publish `di
 
 ### Changing a price
 Edit `src/data/menu.ts`. The price on the card and in the WhatsApp message both come from there.
+
+### Filling in the Kitchen menu
+Add categories to the `kitchen` array in `src/data/menu.ts`, in the same shape as `bakes` (an example is in the comments). While it's empty, the Kitchen page shows a "coming soon, ask what's cooking" panel. Once it has items, it switches to the full menu with category tabs and "Order this" buttons automatically.
 
 ### Adding real photos
 Photos currently show as labelled placeholders. To add one:
@@ -55,3 +58,7 @@ Set `instagramUrl` in `src/data/site.ts` and the footer and Contact page link to
 - Motion: gentle rise-and-fade on scroll, the seal's ring turns slowly, and hover lifts. All of it switches off for people who prefer reduced motion.
 
 Full rules are in `design/brand-book.md`.
+
+---
+
+Designed & built by [Yami](https://iamyami.com).

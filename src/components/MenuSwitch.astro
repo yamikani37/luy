@@ -1,0 +1,17 @@
+---
+// Bakes | Kitchen switch at the top of the menu. The pistachio pill slides over from the other side on arrival.
+import Icon from './Icon.astro';
+import { menus } from '../data/menu';
+interface Props { current: 'bakes' | 'kitchen'; }
+const { current } = Astro.props;
+const list = [menus.bakes, menus.kitchen];
+---
+<nav class="switch" aria-label="Choose a menu" data-current={current}>
+  <span class="switch__pill" aria-hidden="true"></span>
+  {list.map((m) => (
+    <a class:list={['switch__opt', m.id === current && 'is-on']} href={m.href} aria-current={m.id === current ? 'page' : undefined}>
+      <Icon name={m.id === 'bakes' ? 'whisk' : 'pot'} size={22} />
+      <span class="switch__text"><span class="switch__title">{m.title}</span><span class="switch__sub">{m.tagline}</span></span>
+    </a>
+  ))}
+</nav>

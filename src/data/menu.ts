@@ -11,7 +11,7 @@ export type MenuCategory = {
   items: MenuItem[];
 };
 
-export const menu: MenuCategory[] = [
+export const bakes: MenuCategory[] = [
   {
     id: 'bento',
     title: 'Bento Cakes & Cupcakes',
@@ -63,3 +63,35 @@ export const menu: MenuCategory[] = [
     ],
   },
 ];
+
+// ── Kitchen ──────────────────────────────────────────────────────────────
+// Add the kitchen menu here, in the same shape as `bakes`. While it is empty,
+// the Kitchen page shows a "coming soon — ask on WhatsApp" panel instead.
+// Example shape (replace with the client's real dishes and prices):
+// {
+//   id: 'mains',
+//   title: 'Mains',
+//   category: 'Kitchen — Mains',
+//   blurb: 'Home-cooked, made to order',
+//   from: 'K…',
+//   items: [{ name: '…', price: 'K…', note: '…' }],
+// },
+export const kitchen: MenuCategory[] = [];
+
+// The two menus, as shown on the switch and on the home page.
+export const menus = {
+  bakes: {
+    id: 'bakes',
+    title: 'Bakes',
+    href: '/menu',
+    tagline: 'Cakes, cupcakes & bento treats',
+    categories: bakes,
+  },
+  kitchen: {
+    id: 'kitchen',
+    title: 'Kitchen',
+    href: '/menu/kitchen',
+    tagline: 'Home-cooked food, made to order',
+    categories: kitchen,
+  },
+} as const;
