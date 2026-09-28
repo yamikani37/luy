@@ -17,6 +17,10 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
       {nav.map((l) => <a class="nav__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>)}
     </nav>
     <Button href={orderLink()} icon="chat" class="site-header__cta">Order on WhatsApp</Button>
+    <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false" data-theme-toggle>
+      <span class="theme-toggle__icon theme-toggle__moon"><Icon name="moon" size={20} /></span>
+      <span class="theme-toggle__icon theme-toggle__sun"><Icon name="sun" size={20} /></span>
+    </button>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
       <span class="sr-only">Menu</span>
       <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>

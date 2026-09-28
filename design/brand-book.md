@@ -44,6 +44,7 @@ Proportions on a typical page: about 60% cream, 25% pistachio, 10% olive, 5% cop
 - **copper-500** is only for small accents: the seal centre, short rules, the underline on nav links and the focus ring. For copper-coloured words (eyebrow labels), use **copper-700**.
 - **cream-50** is the page. **parchment-100** and **pistachio-100** (mist) separate bands and hold cards.
 - Every text pairing here is at least 4.5:1. The token notes list the ratios.
+- **Dark mode** swaps the cream grounds for deep olive-black and the Olive Ink for a warm cream. Pistachio blocks, olive bands, copper and the seal stay exactly as they are. The site follows the phone's setting; the sun/moon pill in the header switches it.
 
 ## Type
 

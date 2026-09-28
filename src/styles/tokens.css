@@ -1,5 +1,6 @@
-/* Generated from design/tokens.json — edit the JSON, then regenerate (see README). */
+/* Generated from design/tokens.json by scripts/tokens.mjs: edit the JSON, then run `npm run tokens`. */
 :root {
+  color-scheme: light;
   --pistachio-50: #F6F8EF;
   --pistachio-100: #EEF2E2;
   --pistachio-200: #D6E0BF;
@@ -19,6 +20,15 @@
   --line-200: #E3E2D2;
   --focus: var(--copper-500);
   --danger-600: #A8322B;
+  --bg: var(--cream-50);
+  --bg-alt: var(--parchment-100);
+  --bg-mist: var(--pistachio-50);
+  --surface: var(--white);
+  --surface-soft: var(--pistachio-100);
+  --line: var(--line-200);
+  --text: var(--olive-800);
+  --text-muted: var(--olive-600);
+  --text-accent: var(--copper-700);
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -47,4 +57,37 @@
   --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
   --font-display: 'Fraunces Variable', Fraunces, Georgia, 'Times New Roman', serif;
   --font-sans: 'Figtree Variable', Figtree, 'Segoe UI', system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #161B0F;
+    --bg-alt: #1C2214;
+    --bg-mist: #1A2112;
+    --surface: #222A18;
+    --surface-soft: #28311C;
+    --line: #39432A;
+    --text: #EFEBDC;
+    --text-muted: #B7BCA2;
+    --text-accent: #DE9A62;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 22px 56px rgba(0, 0, 0, 0.55);
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #161B0F;
+  --bg-alt: #1C2214;
+  --bg-mist: #1A2112;
+  --surface: #222A18;
+  --surface-soft: #28311C;
+  --line: #39432A;
+  --text: #EFEBDC;
+  --text-muted: #B7BCA2;
+  --text-accent: #DE9A62;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 22px 56px rgba(0, 0, 0, 0.55);
 }

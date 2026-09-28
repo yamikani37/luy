@@ -15,7 +15,8 @@ Cloudflare Workers static assets. `SITE_URL` env var sets `site` in `astro.confi
 - Keep the footer credit "Designed & built by Yami" (https://iamyami.com).
 - **Prices live only in `src/data/menu.ts`** and come from the client. Never invent or change a price, product, phone number or business claim. Missing info gets a clearly labelled placeholder.
 - Business info lives in `src/data/site.ts`. WhatsApp links are always built with `orderLink()` from `src/lib/whatsapp.ts`. Keep the message wording.
-- Colours, spacing, radii, shadows, durations and easings come from CSS variables in `src/styles/tokens.css`, generated from `design/tokens.json`. Don't hard-code hex values in components. If a token changes, edit the JSON and regenerate `tokens.css`, keeping the same variable names.
+- Colours, spacing, radii, shadows, durations and easings come from CSS variables in `src/styles/tokens.css`, generated from `design/tokens.json`. Don't hard-code hex values in components. If a token changes, edit the JSON and run `npm run tokens` to regenerate `tokens.css`, keeping the same variable names.
+- Dark mode: page grounds and text use the role tokens (`--bg`, `--bg-alt`, `--bg-mist`, `--surface`, `--surface-soft`, `--line`, `--text`, `--text-muted`, `--text-accent`), which switch in dark mode. Brand blocks (pistachio, olive bands, the seal) use palette tokens and look the same in both themes. It follows the system setting, and the header toggle overrides it (saved in `localStorage`).
 - Colour rules: pistachio (`--pistachio-500`) is never used for text; text on pistachio is `--olive-900`; copper is for accents only (`--copper-700` when it must be readable text).
 - The logo is `src/components/Seal.astro` (outlined paths in `src/data/seal-paths.json`) or the SVGs in `public/brand/`. Never retype the logo in a font.
 - Every control is a pill, at least 44px tall, with a visible focus ring (`--focus`).

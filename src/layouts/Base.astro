@@ -34,7 +34,8 @@ const ld = {
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
   {canonical && <link rel="canonical" href={canonical} />}
-  <meta name="theme-color" content="#A7B97E" />
+  <meta name="theme-color" content="#A7B97E" media="(prefers-color-scheme: light)" data-theme-color />
+  <meta name="theme-color" content="#161B0F" media="(prefers-color-scheme: dark)" data-theme-color />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -44,7 +45,11 @@ const ld = {
   <meta property="og:image" content={ogImage} />
   {canonical && <meta property="og:url" content={canonical} />}
   <meta name="twitter:card" content="summary_large_image" />
-  <script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
+  <script is:inline>
+    document.documentElement.classList.replace('no-js', 'js');
+    // Apply a saved light/dark choice before paint; otherwise the system setting decides.
+    try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
   <script type="application/ld+json" set:html={JSON.stringify(ld)} />
 </head>
 <body>
@@ -64,6 +69,26 @@ const ld = {
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Light/dark toggle. The meta theme-color colours match --pistachio-500 (light) and --bg (dark).
+    const themeBtn = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const isDark = () => (document.documentElement.dataset.theme ?? (systemDark.matches ? 'dark' : 'light')) === 'dark';
+    const syncTheme = () => {
+      const dark = isDark();
+      themeBtn?.setAttribute('aria-pressed', String(dark));
+      if (document.documentElement.dataset.theme) {
+        document.querySelectorAll('meta[data-theme-color]').forEach((m) => m.setAttribute('content', dark ? '#161B0F' : '#A7B97E'));
+      }
+    };
+    syncTheme();
+    systemDark.addEventListener('change', syncTheme);
+    themeBtn?.addEventListener('click', () => {
+      const next = isDark() ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      syncTheme();
+    });
 
     // Mobile nav sheet
     const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
