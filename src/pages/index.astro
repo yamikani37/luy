@@ -6,9 +6,11 @@ import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
 import Scallops from '../components/Scallops.astro';
 import OrderBanner from '../components/OrderBanner.astro';
-import { bakes, kitchen, menus } from '../data/menu';
+import { bakes, kitchen, menus, sitePhotos } from '../data/menu';
 import { occasions } from '../data/site';
 import { orderLink } from '../lib/whatsapp';
+
+const galleryLabels = ['a tiered or custom order', 'a bento cake or cupcake box', 'a celebration cake', 'icing in progress'];
 
 const steps = [
   { title: 'Pick your cake', body: 'Browse the menu and choose a size, from a bento box for one to a tiered cake for a crowd.' },
@@ -40,7 +42,7 @@ const steps = [
         </div>
       </div>
       <div class="hero__visual">
-        <Photo class="hero__photo" label="a favourite celebration cake" eager />
+        <Photo class="hero__photo" photo={sitePhotos.hero} label="a favourite celebration cake" eager />
         <span class="hero__chip"><i></i>Baked fresh to order</span>
         <Seal class="hero__seal" size={170} spin label="Luyando Mooya’s Kitchen seal" />
       </div>
@@ -86,7 +88,7 @@ const steps = [
       <div class="cat-grid">
         {bakes.map((c, i) => (
           <a class="cat-card" href={`/menu#${c.id}`} data-reveal style={`--i:${i}`}>
-            <Photo label={c.title} />
+            <Photo photo={c.photo} label={c.title} sizes="(max-width: 820px) 50vw, 25vw" />
             <div class="cat-card__body">
               <h3 class="h3">{c.title}</h3>
               <p class="muted">{c.blurb}</p>
@@ -138,10 +140,7 @@ const steps = [
         <h2 class="h1" id="peek-title" data-reveal style="--i:1">A peek inside the kitchen</h2>
       </div>
       <div class="gallery">
-        <Photo label="a tiered or custom order" />
-        <Photo label="a bento cake or cupcake box" />
-        <Photo label="a celebration cake" />
-        <Photo label="icing in progress" />
+        {galleryLabels.map((label, i) => <Photo photo={sitePhotos.gallery?.[i]} label={label} />)}
       </div>
     </div>
   </section>

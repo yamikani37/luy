@@ -1,15 +1,13 @@
 ---
-// A photo slot. Until real photos arrive it shows a clearly labelled placeholder.
-// To add a photo: put it in src/assets/ and pass it as `src` (an imported image) with `alt`.
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+// A photo slot. Photos are uploaded by the owner in Sanity; until one is added it shows a clearly labelled placeholder.
 import Seal from './Seal.astro';
-interface Props { src?: ImageMetadata; alt?: string; label: string; class?: string; eager?: boolean; }
-const { src, alt = '', label, class: cls, eager = false } = Astro.props;
+import { hasPhoto, photoAttrs, type SanityPhoto } from '../lib/sanity';
+interface Props { photo?: SanityPhoto | null; label: string; class?: string; eager?: boolean; sizes?: string; }
+const { photo, label, class: cls, eager = false, sizes = '(max-width: 820px) 100vw, 50vw' } = Astro.props;
 ---
-{src ? (
+{hasPhoto(photo) ? (
   <div class:list={['photo', cls]}>
-    <Image src={src} alt={alt} widths={[400, 800, 1200]} sizes="(max-width: 820px) 100vw, 50vw" loading={eager ? 'eager' : 'lazy'} />
+    <img {...photoAttrs(photo)} sizes={sizes} alt={photo.alt ?? ''} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
   </div>
 ) : (
   <div class:list={['photo', 'photo--empty', cls]} role="img" aria-label={`Photo coming soon: ${label}`}>

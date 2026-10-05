@@ -4,6 +4,7 @@ import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
 import Button from '../components/Button.astro';
 import OrderBanner from '../components/OrderBanner.astro';
+import { sitePhotos } from '../data/menu';
 
 const values = [
   { icon: 'whisk', title: 'Freshly made', body: 'Every order is baked to order, never sitting around waiting for a buyer.' },
@@ -22,7 +23,7 @@ const values = [
 
   <section class="section" style="padding-top:0">
     <div class="container story">
-      <div data-reveal><Photo label="Luyando, or the kitchen at work" /></div>
+      <div data-reveal><Photo photo={sitePhotos.about} label="Luyando, or the kitchen at work" /></div>
       <div class="story__text">
         <h2 class="h2" data-reveal>Who we are</h2>
         <p data-reveal style="--i:1">Luyando Mooya’s Kitchen is a home bakery in Ndola, making cakes, cupcakes and bento treats for life’s biggest and smallest moments. Every order is baked fresh, iced by hand and sized to fit whatever you’re celebrating, from a small bento cake for a quiet Tuesday to a full tiered cake for a wedding.</p>

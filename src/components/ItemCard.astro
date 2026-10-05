@@ -7,7 +7,7 @@ interface Props { item: MenuItem; category: string; categoryTitle: string; i?: n
 const { item, category, categoryTitle, i = 0, showPhoto = false } = Astro.props;
 ---
 <article class="item-card" data-reveal style={`--i: ${i}`}>
-  {showPhoto && <Photo label={`${item.name}, ${categoryTitle}`} />}
+  {showPhoto && <Photo photo={item.photo} label={`${item.name}, ${categoryTitle}`} sizes="(max-width: 820px) 100vw, 33vw" />}
   <div class="item-card__body">
     <div>
       <h3 class="h3">{item.name}</h3>

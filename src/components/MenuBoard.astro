@@ -22,7 +22,7 @@ const { categories } = Astro.props;
         <p data-reveal style="--i:1">{c.blurb}</p>
       </div>
       <div class="menu-grid">
-        {c.items.map((item, i) => <ItemCard item={item} category={c.category} categoryTitle={c.title} i={i} />)}
+        {c.items.map((item, i) => <ItemCard item={item} category={c.category} categoryTitle={c.title} i={i} showPhoto={c.items.some((it) => it.photo?.asset)} />)}
       </div>
     </section>
   ))}

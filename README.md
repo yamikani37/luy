@@ -2,7 +2,7 @@
 
 Website for **Luyando Mooya's Kitchen**, a home bakery in Ndola, Zambia. *Beautifully made. Made for your moments.*
 
-Built with [Astro](https://astro.build) as a fully static site: Home, Menu (two menus: **Bakes** at `/menu` and **Kitchen** at `/menu/kitchen`), About and Contact, with no backend. Every "Order" button opens WhatsApp with the order already written.
+Built with [Astro](https://astro.build) as a fully static site, with prices, menu items and photos managed in [Sanity](https://luy.sanity.studio): Home, Menu (two menus: **Bakes** at `/menu` and **Kitchen** at `/menu/kitchen`), About and Contact, with no backend. Every "Order" button opens WhatsApp with the order already written.
 
 ## Run it
 
@@ -39,7 +39,8 @@ npm run deploy            # builds, then uploads dist/ to Cloudflare
 | What | Where |
 | --- | --- |
 | Business details (phones, WhatsApp number, location, Instagram) | `src/data/site.ts` |
-| **Prices and menu items**: `bakes` and `kitchen` | `src/data/menu.ts` |
+| **Prices, menu items, descriptions, photos** | Sanity Studio: https://luy.sanity.studio (fetched in `src/data/menu.ts`) |
+| Studio schema (what fields the owner sees) | `studio/schemas/` |
 | WhatsApp message wording | `src/lib/whatsapp.ts` |
 | Pages | `src/pages/` |
 | Components (Seal logo, buttons, cards, header, footer…) | `src/components/` |
@@ -48,23 +49,22 @@ npm run deploy            # builds, then uploads dist/ to Cloudflare
 | Brand book (logo rules, colour rules, voice, motion) | `design/brand-book.md` |
 | Logo files (SVG + PNG), favicon, share image | `public/brand/`, `public/favicon.svg`, `public/og.png` |
 
-### Changing a price
-Edit `src/data/menu.ts`. The price on the card and in the WhatsApp message both come from there.
+### Editing the menu and photos (Sanity)
 
-### Filling in the Kitchen menu
-Add categories to the `kitchen` array in `src/data/menu.ts`, in the same shape as `bakes` (an example is in the comments). While it's empty, the Kitchen page shows a "coming soon, ask what's cooking" panel. Once it has items, it switches to the full menu with category tabs and "Order this" buttons automatically.
+The owner edits everything at **https://luy.sanity.studio**. In the Studio there are three things:
 
-### Adding real photos
-Photos currently show as labelled placeholders. To add one:
-1. Put the image in `src/assets/` (e.g. `src/assets/bento.jpg`).
-2. Import it in the page and pass it to the `Photo` component:
-   ```astro
-   ---
-   import bento from '../assets/bento.jpg';
-   ---
-   <Photo src={bento} alt="A pistachio bento cake in its box" label="bento" />
-   ```
-   Astro resizes and compresses it automatically.
+- **Bakes menu** and **Kitchen menu**: categories (name, description, photo) and items (name, price, description, optional photo). Drag to reorder. Prices are typed as plain numbers (`1600`) and shown as `K1,600`. Each category's "from" price is the cheapest item in it.
+- **Site photos**: the home page's main photo, the four "peek inside the kitchen" photos and the About page photo.
+
+When the owner presses **Publish**, a webhook calls the Cloudflare deploy hook. The site rebuilds and is live a minute or two later. Any photo slot without a photo shows a labelled placeholder. While the Kitchen menu has no categories, its page shows the "coming soon" panel.
+
+**Setup (already done unless noted):**
+- Sanity project `qo3wi0jo`, public dataset `production`, seeded with the original price list.
+- Studio deployed from `studio/` (`cd studio && npm install && npm run deploy`; `npm run dev` runs it locally on :3333).
+- **To do:** invite the owner at sanity.io/manage → project → Members (Editor role).
+- **To do:** create a deploy hook in Cloudflare (Worker → Settings → Builds → Deploy Hooks), then add it as a Sanity webhook (sanity.io/manage → API → Webhooks: trigger on create/update/delete, POST, filter `_type in ["menu", "sitePhotos"]`, dataset `production`).
+
+If Sanity can't be reached during a build, the build fails and the live site keeps its last version. It never goes out with missing prices.
 
 ### Instagram link
 Set `instagramUrl` in `src/data/site.ts` and the footer and Contact page link to it automatically.
