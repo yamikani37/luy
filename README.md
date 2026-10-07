@@ -62,7 +62,7 @@ When the owner presses **Publish**, a webhook calls the Cloudflare deploy hook. 
 - Sanity project `qo3wi0jo`, public dataset `production`, seeded with the original price list.
 - Studio deployed from `studio/` (`cd studio && npm install && npm run deploy`; `npm run dev` runs it locally on :3333).
 - **To do:** invite the owner at sanity.io/manage → project → Members (Editor role).
-- **To do:** create a deploy hook in Cloudflare (Worker → Settings → Builds → Deploy Hooks), then add it as a Sanity webhook (sanity.io/manage → API → Webhooks: trigger on create/update/delete, POST, filter `_type in ["menu", "sitePhotos"]`, dataset `production`).
+- Rebuild on publish: Sanity webhook "Rebuild website on Cloudflare" (sanity.io/manage → API → Webhooks) POSTs to the Worker's deploy hook (Cloudflare → `luy` → Settings → Builds → Deploy Hooks) when a `menu` or `sitePhotos` document is published.
 
 If Sanity can't be reached during a build, the build fails and the live site keeps its last version. It never goes out with missing prices.
 
